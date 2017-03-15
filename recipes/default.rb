@@ -17,22 +17,11 @@
 # limitations under the License.
 #
 
-package "wget"
-
-script "Downloading TeXLive install DVD" do
-  interpreter "ruby"
+remote_file "texlive2016.iso" do
+  source node["texlive"]["dvd_url"]
+  path "#{Chef::Config[:file_cache_path]}/texlive2016.iso"
+  backup false
   not_if {::File.exists?("/usr/local/texlive/2016")}
-  code <<-EOH
-    require 'open-uri'
-    open("#{node["texlive"]["dvd_url"]}", 'rb') do |input|
-      open("#{Chef::Config[:file_cache_path]}/texlive2016.iso", 'wb') do |output|
-        while data = input.read(8192) do
-          output.write(data)
-        end
-      end
-    end
-  EOH
-
   notifies :create, "cookbook_file[/tmp/texlive.profile]", :immediately
   notifies :run, "script[install-texlive]", :immediately
 end
