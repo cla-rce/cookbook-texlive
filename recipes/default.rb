@@ -21,11 +21,11 @@ package "wget"
 
 script "Downloading TeXLive install DVD" do
   interpreter "ruby"
-  not_if {::File.exists?("/usr/local/texlive/2012")}
+  not_if {::File.exists?("/usr/local/texlive/2016")}
   code <<-EOH
     require 'open-uri'
     open("#{node["texlive"]["dvd_url"]}", 'rb') do |input|
-      open("#{Chef::Config[:file_cache_path]}/texlive2012.iso", 'wb') do |output|
+      open("#{Chef::Config[:file_cache_path]}/texlive2016.iso", 'wb') do |output|
         while data = input.read(8192) do
           output.write(data)
         end
@@ -48,7 +48,7 @@ script "install-texlive" do
   timeout node['texlive']['timeout'].to_i
   flags "-e"
   code <<-EOH
-    mount -oloop=/dev/loop0 #{Chef::Config[:file_cache_path]}/texlive2012.iso /mnt
+    mount -oloop=/dev/loop0 #{Chef::Config[:file_cache_path]}/texlive2016.iso /mnt
     /mnt/install-tl --profile /tmp/texlive.profile
     umount /mnt
     rm -f installation.profile install-tl.log 
@@ -56,7 +56,7 @@ script "install-texlive" do
 end
 
 file "texlive-cleanup" do
-  path "#{Chef::Config[:file_cache_path]}/texlive2012.iso"
+  path "#{Chef::Config[:file_cache_path]}/texlive2016.iso"
   action :delete
   backup false
 end
