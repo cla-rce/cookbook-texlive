@@ -37,9 +37,9 @@ script "install-texlive" do
   timeout node['texlive']['timeout'].to_i
   flags "-e"
   code <<-EOH
-    mount -oloop=/dev/loop0 #{Chef::Config[:file_cache_path]}/texlive2016.iso /mnt
+    trap 'umount /mnt' EXIT
+    mount -oloop=/dev/loop0 #{Chef::Config[:file_cache_path]}/texlive2016.iso /mnt &&
     /mnt/install-tl --profile /tmp/texlive.profile
-    umount /mnt
     rm -f installation.profile install-tl.log 
   EOH
 end
