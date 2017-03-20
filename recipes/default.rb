@@ -19,6 +19,7 @@
 
 remote_file "texlive2016.iso" do
   source node["texlive"]["dvd_url"]
+  checksum node["texlive"]["dvd_checksum"]
   path "#{Chef::Config[:file_cache_path]}/texlive2016.iso"
   backup false
   not_if {::File.exists?("/usr/local/texlive/2016")}

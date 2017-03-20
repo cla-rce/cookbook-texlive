@@ -18,6 +18,9 @@ Attributes
 * `node['texlive']['dvd_url']` - URL for TeXLive install DVD image
   Default settings are download it from ftp.jaist.ac.jp .
 
+* `node['texlive']['checksum']` - Checksum of TeXLive install DVD image
+  (SHA-256).
+
 * `node['texlive']['timeout']` - Timeout for TeXLive installer.
   Default settings are 1800 (30min).
 
