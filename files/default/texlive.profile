@@ -1,6 +1,3 @@
-# texlive.profile written on Mon Mar 13 07:13:11 2017 UTC
-# It will NOT be updated and reflects only the
-# installation profile at installation time.
 selected_scheme scheme-custom
 TEXDIR /usr/local/texlive/2016
 TEXMFCONFIG ~/.texlive2016/texmf-config
