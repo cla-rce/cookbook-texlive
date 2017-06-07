@@ -17,12 +17,12 @@
 # limitations under the License.
 #
 
-remote_file "texlive2016.iso" do
+remote_file "texlive2017.iso" do
   source node["texlive"]["dvd_url"]
   checksum node["texlive"]["dvd_checksum"]
-  path "#{Chef::Config[:file_cache_path]}/texlive2016.iso"
+  path "#{Chef::Config[:file_cache_path]}/texlive2017.iso"
   backup false
-  not_if {::File.exists?("/usr/local/texlive/2016")}
+  not_if {::File.exists?("/usr/local/texlive/2017")}
   notifies :create, "cookbook_file[/tmp/texlive.profile]", :immediately
   notifies :run, "script[install-texlive]", :immediately
 end
@@ -39,14 +39,14 @@ script "install-texlive" do
   flags "-e"
   code <<-EOH
     trap 'umount /mnt' EXIT
-    mount -oloop=/dev/loop0 #{Chef::Config[:file_cache_path]}/texlive2016.iso /mnt &&
+    mount -oloop=/dev/loop0 #{Chef::Config[:file_cache_path]}/texlive2017.iso /mnt &&
     /mnt/install-tl --profile /tmp/texlive.profile
     rm -f installation.profile install-tl.log 
   EOH
 end
 
 file "texlive-cleanup" do
-  path "#{Chef::Config[:file_cache_path]}/texlive2016.iso"
+  path "#{Chef::Config[:file_cache_path]}/texlive2017.iso"
   action :delete
   backup false
 end

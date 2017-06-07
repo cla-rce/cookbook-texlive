@@ -1,3 +1,3 @@
-default['texlive']['dvd_url'] = "http://mirror.ctan.org/systems/texlive/Images/texlive2016.iso"
-default['texlive']['dvd_checksum'] = 'f233b6619ab6460f8fae847c5376381a00e666805abb4043f22525032f20f9f8'
+default['texlive']['dvd_url'] = "http://mirror.ctan.org/systems/texlive/Images/texlive2017.iso"
+default['texlive']['dvd_checksum'] = '18902d628570da14c1169f054746dd8dd168a4554c0636a4d99dd279492bfa71'
 default['texlive']['timeout'] = 1800  # 30min
