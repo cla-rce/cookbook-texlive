@@ -5,3 +5,7 @@ rvm:
   - 1.9.3
   - 2.1.2
 script: bundle exec rake chef:tests
+
+verifier:
+  name: inspec
+  format: documentation

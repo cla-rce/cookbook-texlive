@@ -17,41 +17,68 @@
 # limitations under the License.
 #
 
-remote_file "texlive2017.iso" do
-  source node["texlive"]["dvd_url"]
-  checksum node["texlive"]["dvd_checksum"]
-  path "#{Chef::Config[:file_cache_path]}/texlive2017.iso"
-  backup false
-  not_if {::File.exists?("/usr/local/texlive/2017")}
-  notifies :create, "cookbook_file[/tmp/texlive.profile]", :immediately
+
+#remote_file node["texlive"]["filename"] do
+#  source node["texlive"]["dvd_url"]
+#  #checksum node["texlive"]["dvd_checksum"]
+#  path "#{Chef::Config[:file_cache_path]}/#{node["texlive"]["filename"]}"
+#  backup false
+#  not_if {::File.exists?(node["texlive"]["location"])}
+    
+#  notifies :create, "template[/tmp/texlive.profile]", :immediately
+#  notifies :run, "script[install-texlive]", :immediately
+#end
+
+yum_package 'perl-Digest-MD5' do
+  action :install
+end
+#wget
+
+ark 'texlive' do
+  url "#{node['texlive']['netinstall']}"
+  path "#{Chef::Config[:file_cache_path]}/#{node["texlive"]["filename"]}"
+  action :put
+  notifies :create, "template[/tmp/texlive.profile]", :immediately
+  
+  
+end  
+
+template "/tmp/texlive.profile" do
+  source 'texlive.profile.erb'
+  variables(location: node['texlive']['location'],
+            version: node['texlive']['version'])
   notifies :run, "script[install-texlive]", :immediately
 end
+#default['texlive']['location']
 
-cookbook_file "/tmp/texlive.profile" do
-  source "texlive.profile"
-  action :nothing
-end
+#cookbook_file "/tmp/texlive.profile" do
+#  source "texlive.profile"
+#  action :nothing
+#end
 
 script "install-texlive" do
   interpreter "bash"
-  action :nothing
+  #action :nothing
   timeout node['texlive']['timeout'].to_i
   flags "-e"
   code <<-EOH
-    trap 'umount /mnt' EXIT
-    mount -oloop=/dev/loop0 #{Chef::Config[:file_cache_path]}/texlive2017.iso /mnt &&
-    /mnt/install-tl --profile /tmp/texlive.profile
-    rm -f installation.profile install-tl.log 
+     cd #{Chef::Config[:file_cache_path]}/#{node["texlive"]["filename"]}/texlive
+     ./install-tl --profile /tmp/texlive.profile -logfile /tmp/install-tl.log
   EOH
 end
 
-file "texlive-cleanup" do
-  path "#{Chef::Config[:file_cache_path]}/texlive2017.iso"
-  action :delete
-  backup false
-end
+#trap 'umount /mnt' EXIT
+#    mount -oloop=/dev/loop0 #{Chef::Config[:file_cache_path]}/#{node["texlive"]["filename"]} /mnt &&
+#    /mnt/install-tl --profile /tmp/texlive.profile
+#    rm -f installation.profile install-tl.log 
 
-file "texlive-profile-cleanup" do 
-  path "/tmp/texlive.profile"
-  action :delete
-end
+#file "texlive-cleanup" do
+#  path "#{Chef::Config[:file_cache_path]}/#{node["texlive"]["filename"]}"
+#  action :delete
+#  backup false
+#end
+
+#file "texlive-profile-cleanup" do 
+#  path "/tmp/texlive.profile"
+#  action :delete
+#end
