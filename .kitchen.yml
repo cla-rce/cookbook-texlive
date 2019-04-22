@@ -1,0 +1,31 @@
+---
+driver:
+  name: vagrant
+  synced_folders:
+    - ['e:\', '/pkg/software_depot/app/texlive/2018']
+
+verifier:
+  name: inspec
+  format: documentation
+
+provisioner:
+  name: chef_zero
+  data_bags_path: "~/devel/chef-claumn/data_bags"
+  environments_path: "~/devel/chef-claumn/environments"
+  roles_path: "~/devel/chef-claumn/roles"
+  attributes:
+    sshd:
+      sshd_config:
+        UseDNS: "no"
+
+platforms:
+  - name: centos-7
+  - name: ubuntu-16.04
+  
+suites:
+  - name: default
+    run_list:
+      - recipe[cookbook-texlive::default]
+    attributes: { 'texlive': {'localinstall':"/pkg/software_depot/app/texlive/2018",'removeyuminstall':true} }
+
+        

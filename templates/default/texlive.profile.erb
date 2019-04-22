@@ -1,10 +1,10 @@
-TEXDIR /usr/local/texlive/2017
-TEXMFCONFIG ~/.texlive2017/texmf-config
+TEXDIR <%= node['texlive']['location'] %><%= node['texlive']['version'] %>
+TEXMFCONFIG ~/.texlive<%= node['texlive']['version'] %>/texmf-config
 TEXMFHOME ~/texmf
-TEXMFLOCAL /usr/local/texlive/texmf-local
-TEXMFSYSCONFIG /usr/local/texlive/2017/texmf-config
-TEXMFSYSVAR /usr/local/texlive/2017/texmf-var
-TEXMFVAR ~/.texlive2017/texmf-var
+TEXMFLOCAL <%= node['texlive']['location'] %>texmf-local
+TEXMFSYSCONFIG <%= node['texlive']['location'] %><%= node['texlive']['version'] %>/texmf-config
+TEXMFSYSVAR <%= node['texlive']['location'] %><%= node['texlive']['version'] %>/texmf-var
+TEXMFVAR ~/.texlive<%= node['texlive']['version'] %>/texmf-var
 binary_x86_64-linux 1
 collection-basic 1
 collection-bibtexextra 1
