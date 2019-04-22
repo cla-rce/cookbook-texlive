@@ -24,11 +24,11 @@ Attributes
 * `node['texlive']['netinstall']` - Location of network install download.
   Default: "http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz"
 
-* `node['texlive']['localinstall']` - Location of extracted install files.  Uses this instead of netinstall if specified
-'''Default: N/A
+* `node['texlive']['localinstall']` - Location of extracted install files.  Uses this instead of netinstall if specified.   
+  Default: N/A
 
-* `node['texlive']['removeyuminstall']` -  If set to true it will remove the old yum version first
-'''Default: N/A
+* `node['texlive']['removeyuminstall']` -  If set to true it will remove the old yum version first   
+  Default: N/A
 
 * `node['texlive']['timeout']` - Timeout for TeXLive installer.
   Default settings are 1800 (30min).
