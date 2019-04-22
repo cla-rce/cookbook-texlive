@@ -8,7 +8,7 @@ Requirements
 
 ## Platform
 
-* Linux (I'd tested on CentOS 6.3)
+* Centos 7 and Ubuntu 16.04
 
 This cookbook needs 4GB+ disk space to install TeXLive.
 
