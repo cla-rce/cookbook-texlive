@@ -27,7 +27,7 @@ script "install-texlive" do
   
   if node['texlive']['localinstall'].nil?
     installfolder = "#{Chef::Config[:file_cache_path]}/#{node['texlive']['version']}"
-    notifies :put, "ark[texlive]", :immediately
+    notifies :put, "ark[texlive]", :before
   else
     installfolder = "#{node['texlive']['localinstall']}"
     installoption = "-no-verify-downloads"
